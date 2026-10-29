@@ -50,7 +50,7 @@ export const profile = {
   email: 'mategyonge@gmail.com',
   github: 'https://github.com/MrWitch21',
   linkedin: 'https://www.linkedin.com/in/m%C3%A1t%C3%A9-gy%C3%B6nge-72058b284/',
-  cv: '/cv.pdf',
+  cv: `${import.meta.env.BASE_URL}cv.pdf`,
   available: true,
 
   role: { hu: 'Szabadúszó full-stack fejlesztő', en: 'Freelance full-stack developer' } satisfies T,
@@ -160,8 +160,8 @@ export const projects: Project[] = [
       },
     ],
     stack: ['React', 'TypeScript', 'Zustand', 'Zod', 'Vitest', 'Tailwind CSS'],
-    repo: 'https://github.com/MrWitch21/katanaplo',
-    demo: 'https://mrwitch21.github.io/katanaplo/',
+    repo: 'https://github.com/MrWitch21/kata_naplo',
+    demo: 'https://mrwitch21.github.io/kata_naplo/',
   },
   {
     slug: 'ub-tracker',
