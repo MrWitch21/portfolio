@@ -1,7 +1,8 @@
 import { ArrowUpRight } from 'lucide-react'
-import { projects, ui, type Project } from '../data/content'
+import { projects, ui, type Project, type T } from '../data/content'
 import { usePrefs } from '../lib/prefs'
 import { GithubIcon } from './BrandIcons'
+import { RouteTrace } from './RouteTrace'
 
 function StatusBadge({ status }: { status: Project['status'] }) {
   const { t } = usePrefs()
@@ -51,32 +52,42 @@ function Links({ p }: { p: Project }) {
   )
 }
 
-function Featured({ p }: { p: Project }) {
+function Highlights({ items, className }: { items: T[]; className: string }) {
   const { t } = usePrefs()
   return (
-    <article className="rounded-[2rem] bg-surface p-6 sm:p-10 md:p-12">
+    <ul className={className}>
+      {items.map((h, i) => (
+        <li key={i} className="flex gap-3 text-[0.95rem] text-muted">
+          <span className="mt-2.5 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+          <span>{t(h)}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function Featured({ p }: { p: Project }) {
+  const { t } = usePrefs()
+  const visual = p.visual === 'balaton' && <RouteTrace caption={t(ui.trace)} />
+  return (
+    <article className="rounded-3xl bg-surface p-7 sm:p-10 md:p-14">
       <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
         <StatusBadge status={p.status} />
         <span>{p.year}</span>
       </div>
-      <h3 className="display mt-5 text-[clamp(2.4rem,6vw,4.2rem)] font-bold">{p.name}</h3>
-      <div className="mt-6 grid gap-10 md:grid-cols-[1.1fr_1fr]">
-        <div className="space-y-6">
-          <p className="max-w-[46ch] text-lg">{t(p.summary)}</p>
+      <h3 className="display mt-5 text-[clamp(1.6rem,3vw,2.25rem)] font-semibold">{p.name}</h3>
+      <div className="mt-6 grid gap-10 md:grid-cols-[1.1fr_1fr] md:gap-14">
+        <div className="space-y-7">
+          <p className="max-w-[48ch] text-[1.05rem]">{t(p.summary)}</p>
           <Stack items={p.stack} />
           <Links p={p} />
         </div>
-        {p.highlights && (
-          <ul className="space-y-4 border-line md:border-l md:pl-10">
-            {p.highlights.map((h, i) => (
-              <li key={i} className="flex gap-3 text-[0.98rem] text-muted">
-                <span className="mt-2.5 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
-                <span>{t(h)}</span>
-              </li>
-            ))}
-          </ul>
-        )}
+        {visual ||
+          (p.highlights && <Highlights items={p.highlights} className="space-y-4 border-line md:border-l md:pl-12" />)}
       </div>
+      {visual && p.highlights && (
+        <Highlights items={p.highlights} className="mt-12 grid gap-6 border-t border-line pt-10 md:grid-cols-3 md:gap-10" />
+      )}
     </article>
   )
 }
@@ -84,9 +95,9 @@ function Featured({ p }: { p: Project }) {
 function Row({ p }: { p: Project }) {
   const { t } = usePrefs()
   return (
-    <article className="grid gap-4 border-t border-line py-8 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_auto] md:gap-10">
+    <article className="grid gap-4 border-t border-line py-10 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_auto] md:gap-12">
       <div className="space-y-2">
-        <h3 className="display text-2xl font-bold leading-tight">{p.name}</h3>
+        <h3 className="display text-lg font-semibold">{p.name}</h3>
         <div className="flex items-center gap-3 text-sm text-muted">
           <StatusBadge status={p.status} />
           <span>{p.year}</span>
@@ -109,15 +120,15 @@ export function Work() {
   const others = projects.filter((p) => !p.featured)
 
   return (
-    <section id="work" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
-      <h2 className="display mb-10 text-[clamp(2rem,5vw,3.2rem)] font-bold">{t(ui.workTitle)}</h2>
-      <div className="space-y-6">
+    <section id="work" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
+      <h2 className="display mb-14 text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold">{t(ui.workTitle)}</h2>
+      <div className="space-y-8">
         {featured.map((p) => (
           <Featured key={p.slug} p={p} />
         ))}
       </div>
       {others.length > 0 && (
-        <div className="mt-12 border-b border-line">
+        <div className="mt-16 border-b border-line">
           {others.map((p) => (
             <Row key={p.slug} p={p} />
           ))}

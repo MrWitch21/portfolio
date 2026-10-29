@@ -5,28 +5,28 @@
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 :root {
-  --bg: #f2f4f8;
+  --bg: #f5f7f6;
   --surface: #ffffff;
-  --ink: #121a33;
-  --muted: #586280;
-  --line: #dce1eb;
-  --accent: #4b3bff;
+  --ink: #102221;
+  --muted: #556664;
+  --line: #dde5e3;
+  --accent: #0f766e;
   --accent-ink: #ffffff;
-  --accent-soft: #e4e1ff;
-  --live: #ff4d7e;
+  --accent-soft: #d7efea;
+  --live: #e8553e;
   color-scheme: light;
 }
 
 :root[data-theme='dark'] {
-  --bg: #0e1226;
-  --surface: #161b33;
-  --ink: #eef0f8;
-  --muted: #9ba3bf;
-  --line: #272e4c;
-  --accent: #8d82ff;
-  --accent-ink: #0e1226;
-  --accent-soft: #24204f;
-  --live: #ff6b95;
+  --bg: #0b1413;
+  --surface: #121e1c;
+  --ink: #e6eeec;
+  --muted: #94a6a2;
+  --line: #213330;
+  --accent: #2dd4bf;
+  --accent-ink: #05201c;
+  --accent-soft: #123631;
+  --live: #ff7a5c;
   color-scheme: dark;
 }
 
@@ -54,8 +54,8 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 1.0625rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.25s ease, color 0.25s ease;
 }
@@ -74,8 +74,8 @@ body {
 .display {
   font-family: var(--font-display);
   font-variation-settings: 'wdth' 100;
-  letter-spacing: -0.035em;
-  line-height: 0.92;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
 @keyframes ping-soft {
@@ -89,7 +89,21 @@ body {
   animation: ping-soft 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
+@keyframes chip-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes chip-float {
+  50% { transform: translateY(-6px); }
+}
+
+.chip {
+  animation: chip-in 0.5s ease-out both, chip-float 4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .live-ping { animation: none; opacity: 0; }
+  .chip { animation: none; }
 }

@@ -1,11 +1,3 @@
-/**
- * Minden szöveg itt van. Az oldal komponenseihez nem kell hozzányúlni,
- * ha csak tartalmat cserélsz.
- *
- * Minden szöveg kétnyelvű: { hu: '...', en: '...' }
- * A TODO-val jelölt részeket érdemes átnézni.
- */
-
 export type Lang = 'hu' | 'en'
 export type T = Record<Lang, string>
 
@@ -17,18 +9,17 @@ export interface Project {
   status: ProjectStatus
   year: string
   summary: T
-  /** Rövid pontok: mi volt a nehéz, mit oldottál meg */
   highlights?: T[]
   stack: string[]
   repo?: string
   demo?: string
   featured?: boolean
+  visual?: 'balaton'
 }
 
 export interface Job {
   role: T
   company: string
-  /** Ha a cég ismertebb néven fut (pl. anyavállalat) */
   companyNote?: string
   period: T
   place: T
@@ -43,29 +34,105 @@ export interface School {
   ongoing?: boolean
 }
 
+export interface Service {
+  icon: 'website' | 'app' | 'care'
+  title: T
+  body: T
+}
+
+export interface Step {
+  title: T
+  body: T
+}
+
 export const profile = {
   name: 'Gyönge Máté',
-  firstName: 'Máté',
-  location: { hu: 'Magyarország', en: 'Hungary' } satisfies T,
-  // Ha nem akarod kiírni a gmailt, cseréld le pl. hello@sajatdomain.hu-ra
   email: 'mategyonge@gmail.com',
   github: 'https://github.com/MrWitch21',
   linkedin: 'https://www.linkedin.com/in/m%C3%A1t%C3%A9-gy%C3%B6nge-72058b284/',
-  // Tedd a CV-t a public/ mappába cv.pdf néven, vagy töröld ezt a sort
   cv: '/cv.pdf',
-  // Ha nem szeretnéd, hogy a jelenlegi munkahelyed lássa, állítsd false-ra
-  openToWork: true,
+  available: true,
 
-  role: { hu: 'Full-stack fejlesztő', en: 'Full-stack developer' } satisfies T,
+  role: { hu: 'Szabadúszó full-stack fejlesztő', en: 'Freelance full-stack developer' } satisfies T,
   headline: {
-    hu: 'Gyártásirányítási rendszereket fejlesztek React, TypeScript és C# alapokon. Mellette olyan saját projekteket építek, amiket valaki tényleg használ.',
-    en: 'I build manufacturing execution systems with React, TypeScript and C#. On the side, I build tools that people actually use.',
+    hu: 'Weboldalak, amikre számíthatsz.',
+    en: 'Websites you can count on.',
   } satisfies T,
-  about: {
-    hu: 'Junior fejlesztőként dolgozom a Cloud Network Technology Kft.-nél (Foxconn) Komáromban, előtte bő egy évig az Audi Hungariánál voltam fejlesztő gyakornok. Az ELTE-n végeztem programtervező informatikusként, most a Széchenyi István Egyetemen járok mérnökinformatikus mesterszakra. Szeretem, ha a kód nem csak a gépemen fut: a legtöbbet olyan projekteken tanultam, ahol valódi felhasználók és valódi határidők voltak. A GitHubom régebbi repói a tanulós időszakomat mutatják, az újabb munkáim lent vannak.',
-    en: 'I work as a junior developer at Cloud Network Technology Kft. (Foxconn) in Komárom, and before that I spent over a year as a developer intern at Audi Hungaria. I graduated in Computer Science from ELTE and I am now doing a master’s in Computer Engineering at Széchenyi István University. I like code that runs somewhere other than my laptop: most of what I know came from projects with real users and real deadlines. The older repos on my GitHub are from when I was learning; my recent work is below.',
+  intro: {
+    hu: 'Full-stack fejlesztőként egyedi weboldalakat és webalkalmazásokat készítek vállalkozásoknak és magánszemélyeknek, a felülettől az adatbázisig. Gyors, mobilon is jól működő oldalak, megbeszélt határidőre, átlátható kommunikációval.',
+    en: 'As a full-stack developer, I build custom websites and web apps for small businesses and individuals, from the interface down to the database. Fast sites that work well on any phone, delivered on the agreed date, with clear communication along the way.',
   } satisfies T,
+  about: [
+    {
+      hu: 'Full-stack fejlesztő vagyok: főállásban gyártásirányítási rendszereket fejlesztek a Cloud Network Technology Kft.-nél (Foxconn), előtte bő egy évig az Audi Hungariánál voltam fejlesztő gyakornok. Az ELTE-n végeztem programtervező informatikusként, most a Széchenyi István Egyetemen járok mérnökinformatikus mesterszakra.',
+      en: 'I’m a full-stack developer. My day job is building manufacturing execution systems at Cloud Network Technology Kft. (Foxconn), and before that I spent over a year as a developer intern at Audi Hungaria. I graduated in Computer Science from ELTE and I’m now doing a master’s in Computer Engineering at Széchenyi István University.',
+    },
+    {
+      hu: 'Mellette weboldalakat és webalkalmazásokat készítek megbízásra. Egy kisvállalkozás oldalán ugyanolyan gondosan dolgozom, mint egy nagyvállalati rendszeren: átgondolt, tesztelt kód, tartott határidők, és mindig tudod, hol tart a munka.',
+      en: 'Alongside that, I build websites and web apps for clients. A small business site gets the same care as an enterprise system: well-thought-out, tested code, deadlines that hold, and you always know where the work stands.',
+    },
+  ] satisfies T[],
 }
+
+export const quoteMail = (subject: string) => `mailto:${profile.email}?subject=${encodeURIComponent(subject)}`
+
+export const services: Service[] = [
+  {
+    icon: 'website',
+    title: { hu: 'Bemutatkozó weboldal', en: 'Business website' },
+    body: {
+      hu: 'Vállalkozásoknak, szolgáltatóknak, magánszemélyeknek. Egyedi megjelenés, mobilon is hibátlan, gyorsan betölt, és a keresők is könnyen megtalálják.',
+      en: 'For small businesses, service providers and individuals. A custom design that looks right on phones, loads fast and is easy for search engines to find.',
+    },
+  },
+  {
+    icon: 'app',
+    title: { hu: 'Egyedi webalkalmazás', en: 'Custom web app' },
+    body: {
+      hu: 'Ha egy sima weboldal kevés: foglalási rendszer, kalkulátor, ügyfélportál vagy admin felület, a te folyamataidra szabva.',
+      en: 'When a plain website isn’t enough: booking systems, calculators, client portals or admin dashboards, built around how you work.',
+    },
+  },
+  {
+    icon: 'care',
+    title: { hu: 'Karbantartás és fejlesztés', en: 'Maintenance and updates' },
+    body: {
+      hu: 'Meglévő oldal frissítése, hibajavítás, gyorsítás vagy új funkciók. A domain és a tárhely beállításában is segítek.',
+      en: 'Updates, bug fixes, speed improvements or new features for an existing site. I can also help set up your domain and hosting.',
+    },
+  },
+]
+
+export const steps: Step[] = [
+  {
+    title: { hu: 'Egyeztetés', en: 'A first chat' },
+    body: {
+      hu: 'Átbeszéljük, mire van szükséged, kinek szól az oldal, és mit szeretnél elérni vele.',
+      en: 'We talk through what you need, who the site is for and what you want it to achieve.',
+    },
+  },
+  {
+    title: { hu: 'Írásos ajánlat', en: 'Written quote' },
+    body: {
+      hu: 'Pontosan leírom, mit tartalmaz a munka, mennyibe kerül, és mikorra lesz kész.',
+      en: 'I put in writing exactly what’s included, what it costs and when it will be ready.',
+    },
+  },
+  {
+    title: { hu: 'Fejlesztés', en: 'Build' },
+    body: {
+      hu: 'Egy előnézeti linken menet közben is látod, hogyan halad, és bármikor szólhatsz.',
+      en: 'You can follow progress on a preview link and give feedback at any point.',
+    },
+  },
+  {
+    title: { hu: 'Átadás és támogatás', en: 'Launch and support' },
+    body: {
+      hu: 'Élesítem az oldalt, megmutatom, hogyan kezeld, és az indulás után is elérhető maradok.',
+      en: 'I put the site live, show you how to manage it and stay available after launch.',
+    },
+  },
+]
 
 export const projects: Project[] = [
   {
@@ -93,7 +160,6 @@ export const projects: Project[] = [
       },
     ],
     stack: ['React', 'TypeScript', 'Zustand', 'Zod', 'Vitest', 'Tailwind CSS'],
-    // ↓ Akkor működnek, ha a repót "katanaplo" néven töltöd fel, és bekapcsolod a GitHub Pagest
     repo: 'https://github.com/MrWitch21/katanaplo',
     demo: 'https://mrwitch21.github.io/katanaplo/',
   },
@@ -103,6 +169,7 @@ export const projects: Project[] = [
     status: 'live',
     year: '2026',
     featured: true,
+    visual: 'balaton',
     summary: {
       hu: 'Valós idejű követő a Balaton körüli váltófutáshoz. A futók telefonja GPS-pozíciót küld, a csapat és a nézők élőben látják a térképen, ki hol tart.',
       en: 'Real-time tracker for the relay race around Lake Balaton. Runners’ phones stream GPS positions, and the team and spectators follow everyone live on a map.',
@@ -123,14 +190,12 @@ export const projects: Project[] = [
     ],
     stack: ['React', 'TypeScript', 'Vite', 'Supabase', 'PostgreSQL', 'Leaflet'],
     repo: 'https://github.com/MrWitch21/ub-tracker',
-    // demo: 'https://...vercel.app',  ← tegyél ide egy demó linket
   },
   {
     slug: 'access-automation',
     name: 'Jogosultság-automatizáló',
     status: 'building',
     year: '2026',
-    // TODO: pontosítsd, ha kész a lebutított változat
     summary: {
       hu: 'Jogosultságkérések automatikus kiosztása: a jóváhagyott kérésekből egy PowerShell-szkript állítja be a hozzáféréseket, és mindent naplóz.',
       en: 'Automated access provisioning: a PowerShell script applies approved access requests and logs every change.',
@@ -170,7 +235,6 @@ export const skills: { group: T; items: string[] }[] = [
   },
 ]
 
-// A leírásokat a LinkedIn-en megadott skillekből írtam: nézd át, és pontosítsd, ha kell.
 export const experience: Job[] = [
   {
     role: { hu: 'Junior szoftverfejlesztő', en: 'Junior software developer' },
@@ -209,19 +273,36 @@ export const education: School[] = [
     school: { hu: 'ELTE', en: 'Eötvös Loránd University' },
     period: { hu: '2022 – 2025', en: '2022 – 2025' },
   },
+  {
+    degree: { hu: 'Gimnázium', en: 'Secondary school' },
+    school: { hu: 'Magyar Műhely ÁMK', en: 'Magyar Műhely ÁMK' },
+    period: { hu: '2017 – 2022', en: '2017 – 2022' },
+  },
 ]
 
 export const ui = {
   nav: {
+    services: { hu: 'Szolgáltatások', en: 'Services' },
     work: { hu: 'Munkák', en: 'Work' },
     about: { hu: 'Rólam', en: 'About' },
-    experience: { hu: 'Tapasztalat', en: 'Experience' },
     contact: { hu: 'Kapcsolat', en: 'Contact' },
   },
-  openToWork: { hu: 'Nyitott vagyok új lehetőségekre', en: 'Open to new roles' },
-  cta: { hu: 'Írj nekem', en: 'Email me' },
+  menu: { hu: 'Menü', en: 'Menu' },
+  available: { hu: 'Új megbízásokat vállalok', en: 'Taking on new projects' },
+  cta: { hu: 'Kérj ajánlatot', en: 'Get a quote' },
+  mailSubject: { hu: 'Ajánlatkérés', en: 'Project enquiry' },
   seeWork: { hu: 'Munkáim', en: 'See my work' },
-  workTitle: { hu: 'Amin dolgoztam', en: 'Things I’ve built' },
+  servicesTitle: { hu: 'Amiben segíteni tudok', en: 'How I can help' },
+  servicesLead: {
+    hu: 'A fókuszom a weboldalakon van, de ha valami egyedibb kell, azt is megépítem.',
+    en: 'Websites are my focus, but if you need something more custom, I can build that too.',
+  },
+  processTitle: { hu: 'Hogyan dolgozom', en: 'How I work' },
+  processLead: {
+    hu: 'Megbízhatóan, meglepetések nélkül: minden lépésnél tudod, mi történik.',
+    en: 'Reliable and without surprises: you know what’s happening at every step.',
+  },
+  workTitle: { hu: 'Néhány munkám', en: 'Selected work' },
   status: {
     live: { hu: 'Kész', en: 'Shipped' },
     building: { hu: 'Most épül', en: 'In progress' },
@@ -235,19 +316,33 @@ export const ui = {
   eduTitle: { hu: 'Tanulmányok', en: 'Education' },
   ongoing: { hu: 'folyamatban', en: 'in progress' },
   contactTitle: {
-    hu: 'Van egy projekted vagy egy nyitott pozíciód?',
-    en: 'Got a project or an open role?',
+    hu: 'Van egy projekted? Beszéljük meg.',
+    en: 'Have a project in mind? Let’s talk.',
   },
   contactBody: {
-    hu: 'Írj egy e-mailt, általában egy napon belül válaszolok.',
-    en: 'Send me an email. I usually reply within a day.',
+    hu: 'Írd meg pár mondatban, mire lenne szükséged. Általában egy napon belül válaszolok.',
+    en: 'Tell me in a few sentences what you need. I usually reply within a day.',
   },
   copy: { hu: 'Cím másolása', en: 'Copy address' },
   copied: { hu: 'Kimásolva', en: 'Copied' },
   cv: { hu: 'Önéletrajz', en: 'Résumé' },
   trace: {
-    hu: 'Élő pozíció, ahogy az UltraBalaton Trackerben',
-    en: 'Live position, as in UltraBalaton Tracker',
+    hu: 'Így követik a nézők élőben a futókat',
+    en: 'How spectators follow the runners live',
+  },
+  preview: {
+    headline: { hu: 'A vállalkozásod, online.', en: 'Your business, online.' },
+    desktop: { hu: 'Asztali', en: 'Desktop' },
+    phone: { hu: 'Mobil', en: 'Phone' },
+    caption: {
+      hu: 'Minden oldal telefonra és nagy képernyőre is szabva.',
+      en: 'Every site is built for phones and big screens alike.',
+    },
+    chips: {
+      mobile: { hu: 'Mobilbarát', en: 'Mobile-friendly' },
+      fast: { hu: 'Gyors betöltés', en: 'Fast loading' },
+      seo: { hu: 'Keresőbarát', en: 'Search-friendly' },
+    },
   },
   footer: { hu: 'React és TypeScript, kézzel építve.', en: 'Hand-built with React and TypeScript.' },
 }

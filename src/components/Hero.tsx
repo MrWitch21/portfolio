@@ -1,41 +1,36 @@
-import { Mail, MapPin } from 'lucide-react'
-import { profile, ui } from '../data/content'
+import { Mail } from 'lucide-react'
+import { profile, quoteMail, ui } from '../data/content'
 import { usePrefs } from '../lib/prefs'
-import { GithubIcon, LinkedinIcon } from './BrandIcons'
-import { RouteTrace } from './RouteTrace'
+import { DeviceDemo } from './DeviceDemo'
 
 export function Hero() {
   const { t } = usePrefs()
-  const [first, ...rest] = profile.name.split(' ')
 
   return (
-    <section id="top" className="mx-auto max-w-6xl px-4 pt-14 pb-12 sm:px-6 md:pt-20 md:pb-16">
-      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.95rem] text-muted">
-        <span className="font-medium text-ink">{t(profile.role)}</span>
-        <span className="inline-flex items-center gap-1.5">
-          <MapPin size={15} aria-hidden="true" />
-          {t(profile.location)}
-        </span>
-        {profile.openToWork && (
-          <span className="inline-flex items-center gap-2 rounded-full bg-accent-soft px-3 py-1 text-sm font-medium text-ink">
-            <span className="size-1.5 rounded-full bg-live" />
-            {t(ui.openToWork)}
-          </span>
-        )}
-      </div>
-
-      <div className="mt-6 grid items-center gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-14">
+    <section id="top" className="mx-auto max-w-6xl px-5 pt-16 pb-20 sm:px-8 md:pt-24 md:pb-28">
+      <div className="grid items-center gap-16 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-20">
         <div>
-          <h1 className="display text-[clamp(3.6rem,12vw,8.75rem)] font-extrabold">
-            {first}
-            <br />
-            {rest.join(' ')}
-          </h1>
-          <p className="mt-8 max-w-[34ch] text-xl leading-snug text-ink sm:text-2xl">{t(profile.headline)}</p>
+          {profile.available && (
+            <span className="inline-flex items-center gap-2 rounded-full bg-accent-soft px-3 py-1 text-sm font-medium text-ink">
+              <span className="size-1.5 rounded-full bg-accent" />
+              {t(ui.available)}
+            </span>
+          )}
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <p className="mt-8 text-muted">
+            <span className="block font-medium text-ink sm:inline">{profile.name}</span>
+            <span aria-hidden="true" className="mx-2.5 hidden sm:inline">·</span>
+            {t(profile.role)}
+          </p>
+
+          <h1 className="display mt-4 max-w-[15ch] text-[clamp(2.25rem,5.2vw,3.5rem)] font-semibold">
+            {t(profile.headline)}
+          </h1>
+          <p className="mt-6 max-w-[48ch] text-lg text-muted">{t(profile.intro)}</p>
+
+          <div className="mt-10 flex flex-wrap items-center gap-3">
             <a
-              href={`mailto:${profile.email}`}
+              href={quoteMail(t(ui.mailSubject))}
               className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 font-medium text-accent-ink transition-transform hover:-translate-y-0.5"
             >
               <Mail size={18} aria-hidden="true" />
@@ -47,30 +42,10 @@ export function Hero() {
             >
               {t(ui.seeWork)}
             </a>
-            <div className="ml-1 flex items-center gap-1">
-              <a
-                href={profile.github}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="GitHub"
-                className="grid size-11 place-items-center rounded-full text-muted transition-colors hover:text-ink"
-              >
-                <GithubIcon />
-              </a>
-              <a
-                href={profile.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn"
-                className="grid size-11 place-items-center rounded-full text-muted transition-colors hover:text-ink"
-              >
-                <LinkedinIcon />
-              </a>
-            </div>
           </div>
         </div>
 
-        <RouteTrace caption={t(ui.trace)} />
+        <DeviceDemo />
       </div>
     </section>
   )

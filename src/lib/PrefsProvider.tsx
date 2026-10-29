@@ -1,17 +1,6 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
-import type { Lang, T } from '../data/content'
-
-type Theme = 'light' | 'dark'
-
-interface Prefs {
-  lang: Lang
-  setLang: (l: Lang) => void
-  theme: Theme
-  toggleTheme: () => void
-  t: (text: T) => string
-}
-
-const PrefsContext = createContext<Prefs | null>(null)
+import { useEffect, useState, type ReactNode } from 'react'
+import type { Lang } from '../data/content'
+import { PrefsContext, type Prefs, type Theme } from './prefs'
 
 function read(key: string): string | null {
   try {
@@ -24,9 +13,7 @@ function read(key: string): string | null {
 function write(key: string, value: string) {
   try {
     localStorage.setItem(key, value)
-  } catch {
-    /* privát mód: nem baj */
-  }
+  } catch {}
 }
 
 function initialLang(): Lang {
@@ -70,11 +57,4 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
   }
 
   return <PrefsContext.Provider value={value}>{children}</PrefsContext.Provider>
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export function usePrefs() {
-  const ctx = useContext(PrefsContext)
-  if (!ctx) throw new Error('usePrefs must be used inside PrefsProvider')
-  return ctx
 }
