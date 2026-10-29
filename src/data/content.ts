@@ -14,7 +14,7 @@ export interface Project {
   repo?: string
   demo?: string
   featured?: boolean
-  visual?: 'balaton'
+  visual?: 'balaton' | 'kata'
 }
 
 export interface Job {
@@ -141,6 +141,7 @@ export const projects: Project[] = [
     status: 'live',
     year: '2026',
     featured: true,
+    visual: 'kata',
     summary: {
       hu: 'Számlanyilvántartás és adókalkulátor kisadózóknak, a 2027-es új KATA szabályaival. Mutatja, mennyi fér még a bevételi keretbe, és mennyi adót okoz egy számla, még mielőtt kiállítod.',
       en: 'Invoice tracker and tax calculator for Hungarian KATA sole traders, including the proposed 2027 rules. Shows how much of the revenue cap is left and what an invoice will cost in tax before you issue it.',
@@ -249,6 +250,17 @@ export const experience: Job[] = [
     stack: ['React', 'TypeScript', 'C#', 'Java', 'MS SQL', 'Keycloak'],
   },
   {
+    role: { hu: 'Python-oktató', en: 'Python teacher' },
+    company: 'Magyar Műhely ÁMK',
+    period: { hu: '2025. szept. – jelenleg', en: 'Sep 2025 – present' },
+    place: { hu: 'Mellékállás', en: 'Part-time' },
+    description: {
+      hu: 'Python-programozást tanítok fakultációs órák keretében, érettségire készülő diákoknak.',
+      en: 'I teach Python programming in elective classes for students preparing for their school-leaving exams.',
+    },
+    stack: ['Python'],
+  },
+  {
     role: { hu: 'Szoftverfejlesztő gyakornok', en: 'Software developer intern' },
     company: 'AUDI HUNGARIA Zrt.',
     period: { hu: '2024. máj. – 2025. júl.', en: 'May 2024 – Jul 2025' },
@@ -329,6 +341,18 @@ export const ui = {
   trace: {
     hu: 'Így követik a nézők élőben a futókat',
     en: 'How spectators follow the runners live',
+  },
+  impact: {
+    caption: {
+      hu: 'Így mutatja meg egy számla adóhatását, még mielőtt kiállítod',
+      en: 'How it shows an invoice’s tax impact before you issue it',
+    },
+    cap: { hu: 'Bevételi keret, 2027', en: 'Revenue cap, 2027' },
+    left: { hu: 'Még belefér', en: 'Left in cap' },
+    limit: { hu: 'határ', en: 'cap' },
+    title: { hu: 'Adóhatás', en: 'Tax impact' },
+    none: { hu: 'Nem nő az adód', en: 'No extra tax' },
+    tax: { hu: 'adó', en: 'tax' },
   },
   preview: {
     headline: { hu: 'A vállalkozásod, online.', en: 'Your business, online.' },

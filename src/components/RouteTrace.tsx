@@ -66,6 +66,8 @@ function smoothClosedPath(pts: [number, number][]): string {
 const LAKE_PATH = smoothClosedPath(SHORE)
 const ROUTE_PATH = smoothClosedPath(ROUTE)
 const PROGRESS = 0.55
+const REPLAY_MS = 10_000
+const ease = [0.45, 0, 0.2, 1] as const
 
 export function RouteTrace({ caption }: { caption: string }) {
   const figRef = useRef<HTMLElement>(null)
@@ -90,6 +92,11 @@ export function RouteTrace({ caption }: { caption: string }) {
       dot.setAttribute('transform', `translate(${pt.x} ${pt.y})`)
     }
 
+    const setOpacity = (o: number) => {
+      trace.style.opacity = String(o)
+      dot.style.opacity = String(o)
+    }
+
     if (reduce) {
       draw(PROGRESS)
       return
@@ -97,13 +104,36 @@ export function RouteTrace({ caption }: { caption: string }) {
 
     draw(0)
     if (!inView) return
-    const controls = animate(0, PROGRESS, {
-      duration: 2.4,
-      delay: 0.2,
-      ease: [0.45, 0, 0.2, 1],
-      onUpdate: draw,
-    })
-    return () => controls.stop()
+
+    let timer: number | undefined
+    let controls: { stop: () => void }
+    const play = (delay: number) => {
+      controls = animate(0, PROGRESS, {
+        duration: 2.4,
+        delay,
+        ease,
+        onUpdate: draw,
+        onComplete: () => {
+          timer = window.setTimeout(replay, REPLAY_MS)
+        },
+      })
+    }
+    const replay = () => {
+      controls = animate(1, 0, {
+        duration: 0.5,
+        onUpdate: setOpacity,
+        onComplete: () => {
+          draw(0)
+          controls = animate(0, 1, { duration: 0.4, onUpdate: setOpacity, onComplete: () => play(0.2) })
+        },
+      })
+    }
+
+    play(0.2)
+    return () => {
+      controls.stop()
+      clearTimeout(timer)
+    }
   }, [reduce, inView])
 
   const [sx, sy] = ROUTE[0]
