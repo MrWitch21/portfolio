@@ -22,11 +22,14 @@ export function About() {
                 <dt className="text-sm font-medium text-muted">{t(g.group)}</dt>
                 <dd className="m-0 mt-3">
                   <ul className="flex flex-wrap gap-2">
-                    {g.items.map((s) => (
-                      <li key={s} className="rounded-full border border-line px-3 py-1 text-sm">
-                        {s}
-                      </li>
-                    ))}
+                    {g.items.map((s) => {
+                      const label = typeof s === 'string' ? s : t(s)
+                      return (
+                        <li key={label} className="rounded-full border border-line px-3 py-1 text-sm">
+                          {label}
+                        </li>
+                      )
+                    })}
                   </ul>
                 </dd>
               </div>

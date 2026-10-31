@@ -78,7 +78,7 @@ function Featured({ p }: { p: Project }) {
         <StatusBadge status={p.status} />
         <span>{p.year}</span>
       </div>
-      <h3 className="display mt-5 text-[clamp(1.6rem,3vw,2.25rem)] font-semibold">{p.name}</h3>
+      <h3 className="display mt-5 text-[clamp(1.6rem,3vw,2.25rem)] font-semibold">{t(p.name)}</h3>
       <div className="mt-6 grid gap-10 md:grid-cols-[1.1fr_1fr] md:gap-14">
         <div className="space-y-7">
           <p className="max-w-[48ch] text-[1.05rem]">{t(p.summary)}</p>
@@ -100,7 +100,7 @@ function Row({ p }: { p: Project }) {
   return (
     <article className="grid gap-4 border-t border-line py-10 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_auto] md:gap-12">
       <div className="space-y-2">
-        <h3 className="display text-lg font-semibold">{p.name}</h3>
+        <h3 className="display text-lg font-semibold">{t(p.name)}</h3>
         <div className="flex items-center gap-3 text-sm text-muted">
           <StatusBadge status={p.status} />
           <span>{p.year}</span>

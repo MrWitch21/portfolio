@@ -5,7 +5,8 @@ export type ProjectStatus = 'live' | 'building' | 'archived'
 
 export interface Project {
   slug: string
-  name: string
+  /** A projekt neve nyelvenként: angolul érthető név, magyarul a saját neve */
+  name: T
   status: ProjectStatus
   year: string
   summary: T
@@ -137,7 +138,7 @@ export const steps: Step[] = [
 export const projects: Project[] = [
   {
     slug: 'katanaplo',
-    name: 'Katanapló',
+    name: { hu: 'Katanapló', en: 'KATA Tax Tracker' },
     status: 'live',
     year: '2026',
     featured: true,
@@ -166,7 +167,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'ub-tracker',
-    name: 'UltraBalaton Tracker',
+    name: { hu: 'UltraBalaton Tracker', en: 'UltraBalaton Relay Tracker' },
     status: 'live',
     year: '2026',
     featured: true,
@@ -193,19 +194,20 @@ export const projects: Project[] = [
     repo: 'https://github.com/MrWitch21/ub-tracker',
   },
   {
-    slug: 'access-automation',
-    name: 'Jogosultság-automatizáló',
-    status: 'building',
+    slug: 'jogkor',
+    name: { hu: 'Jogkör', en: 'Access Request & LDAP Provisioning' },
+    status: 'live',
     year: '2026',
     summary: {
-      hu: 'Jogosultságkérések automatikus kiosztása: a jóváhagyott kérésekből egy PowerShell-szkript állítja be a hozzáféréseket, és mindent naplóz.',
-      en: 'Automated access provisioning: a PowerShell script applies approved access requests and logs every change.',
+      hu: 'Jogosultságkérő rendszer: a felettes (érzékeny csoportnál a tulajdonos is) jóváhagyja, a háttérfolyamat beírja az LDAP / Active Directory csoportba, és lejáratkor ki is veszi. Felettesek kezelése, teljes napló.',
+      en: 'Access request system: the manager (and, for sensitive groups, the owner) approves, a background worker writes the change to LDAP / Active Directory and removes it again on expiry. Manager assignment and a full audit trail.',
     },
-    stack: ['PowerShell', 'LDAP', 'Active Directory'],
+    stack: ['C#', 'ASP.NET Core', 'EF Core', 'LDAP', 'React', 'TypeScript'],
+    repo: 'https://github.com/MrWitch21/jogkor',
   },
   {
     slug: 'aspnet-extensions',
-    name: 'ASP.NET Core API Toolkit',
+    name: { hu: 'ASP.NET Core API-kiegészítők', en: 'ASP.NET Core API Toolkit' },
     status: 'live',
     year: '2023',
     summary: {
@@ -217,7 +219,10 @@ export const projects: Project[] = [
   },
 ]
 
-export const skills: { group: T; items: string[] }[] = [
+/** Egy skill: technológianévnél elég egy szöveg, ha fordítani kell, kétnyelvű */
+export type Skill = string | T
+
+export const skills: { group: T; items: Skill[] }[] = [
   {
     group: { hu: 'Frontend', en: 'Front end' },
     items: ['React', 'TypeScript', 'Ant Design', 'Tailwind CSS'],
@@ -228,7 +233,7 @@ export const skills: { group: T; items: string[] }[] = [
   },
   {
     group: { hu: 'Gyártás és integráció', en: 'Manufacturing and integration' },
-    items: ['MES', 'SMT', 'ZPL címkenyomtatás', 'B2B integráció', 'BPMN', 'Keycloak', 'LDAP'],
+    items: ['MES', 'SMT', { hu: 'ZPL címkenyomtatás', en: 'ZPL label printing' }, { hu: 'B2B integráció', en: 'B2B integration' }, 'BPMN', 'Keycloak', 'LDAP'],
   },
   {
     group: { hu: 'Munkamódszer és eszközök', en: 'Process and tooling' },
