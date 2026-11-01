@@ -1,7 +1,9 @@
 import { ArrowUpRight } from 'lucide-react'
 import { projects, ui, type Project, type T } from '../data/content'
 import { usePrefs } from '../lib/prefs'
+import { AccessFlow } from './AccessFlow'
 import { GithubIcon } from './BrandIcons'
+import { LocalizedApi } from './LocalizedApi'
 import { RouteTrace } from './RouteTrace'
 import { TaxImpact } from './TaxImpact'
 
@@ -71,7 +73,9 @@ function Featured({ p }: { p: Project }) {
   const { t } = usePrefs()
   const visual =
     (p.visual === 'balaton' && <RouteTrace caption={t(ui.trace)} />) ||
-    (p.visual === 'kata' && <TaxImpact caption={t(ui.impact.caption)} />)
+    (p.visual === 'kata' && <TaxImpact caption={t(ui.impact.caption)} />) ||
+    (p.visual === 'access' && <AccessFlow caption={t(ui.access.caption)} />) ||
+    (p.visual === 'api' && <LocalizedApi caption={t(ui.api.caption)} />)
   return (
     <article className="rounded-3xl bg-surface p-7 sm:p-10 md:p-14">
       <div className="flex flex-wrap items-center gap-3 text-sm text-muted">

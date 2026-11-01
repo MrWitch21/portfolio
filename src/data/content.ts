@@ -15,7 +15,7 @@ export interface Project {
   repo?: string
   demo?: string
   featured?: boolean
-  visual?: 'balaton' | 'kata'
+  visual?: 'balaton' | 'kata' | 'access' | 'api'
 }
 
 export interface Job {
@@ -198,10 +198,26 @@ export const projects: Project[] = [
     name: { hu: 'Jogkör', en: 'Access Request & LDAP Provisioning' },
     status: 'live',
     year: '2026',
+    featured: true,
+    visual: 'access',
     summary: {
       hu: 'Jogosultságkérő rendszer: a felettes (érzékeny csoportnál a tulajdonos is) jóváhagyja, a háttérfolyamat beírja az LDAP / Active Directory csoportba, és lejáratkor ki is veszi. Felettesek kezelése, teljes napló.',
       en: 'Access request system: the manager (and, for sensitive groups, the owner) approves, a background worker writes the change to LDAP / Active Directory and removes it again on expiry. Manager assignment and a full audit trail.',
     },
+    highlights: [
+      {
+        hu: 'A jóváhagyási állapotgép adatbázis és címtár nélkül fut, így 47 xUnit teszt fedi, a CI pedig valódi OpenLDAP ellen is tesztel.',
+        en: 'The approval state machine runs without a database or directory, so 47 xUnit tests cover it, and CI also tests against a real OpenLDAP server.',
+      },
+      {
+        hu: 'Saját, kb. 600 soros LDAP v3 kliens System.Formats.Asn1-re építve: nincs natív függőség, az RFC 4515 szerinti escape véd az LDAP injection ellen.',
+        en: 'A ~600-line LDAP v3 client built on System.Formats.Asn1: no native dependencies, and RFC 4515 escaping guards against LDAP injection.',
+      },
+      {
+        hu: 'Idempotens háttérkiosztás: hibánál egyre hosszabb várakozással újrapróbál, lejáratkor magától visszavon, és minden lépést naplóz.',
+        en: 'Idempotent background provisioning: retries with growing back-off, revokes access on expiry by itself and logs every step.',
+      },
+    ],
     stack: ['C#', 'ASP.NET Core', 'EF Core', 'LDAP', 'React', 'TypeScript'],
     repo: 'https://github.com/MrWitch21/jogkor',
   },
@@ -209,11 +225,27 @@ export const projects: Project[] = [
     slug: 'aspnet-extensions',
     name: { hu: 'ASP.NET Core API-kiegészítők', en: 'ASP.NET Core API Toolkit' },
     status: 'live',
-    year: '2023',
+    year: '2025',
+    featured: true,
+    visual: 'api',
     summary: {
       hu: 'Újrahasznosítható kiegészítők ASP.NET Core Web API-khoz: nyelvi header Swaggerben, automatikus migráció, Excel import/export factory mintával.',
       en: 'Reusable add-ons for ASP.NET Core Web APIs: a language header in Swagger, automatic migrations and Excel import/export built on the factory pattern.',
     },
+    highlights: [
+      {
+        hu: 'Egy attribútummal a végpont kötelező Accept-Language headert kap, a Swagger UI-ban pedig választóként jelenik meg (hu-HU, en-GB).',
+        en: 'One attribute makes an endpoint require an Accept-Language header, and Swagger UI shows it as a dropdown (hu-HU, en-GB).',
+      },
+      {
+        hu: 'Automatikus migráció induláskor: ha az adatbázis még nem érhető el, 15 másodpercenként újrapróbálja, így konténerben is biztonságosan indul.',
+        en: 'Automatic migrations on startup: if the database isn’t reachable yet, it retries every 15 seconds, so it starts safely in containers too.',
+      },
+      {
+        hu: 'Excel import/export factory mintával (ClosedXML), és egy audit-interceptor, ami a létrehozás, módosítás és soft delete idejét rögzíti.',
+        en: 'Excel import/export built on the factory pattern (ClosedXML), plus an audit interceptor that stamps create, update and soft-delete times.',
+      },
+    ],
     stack: ['C#', 'ASP.NET Core', 'EF Core', 'Swagger'],
     repo: 'https://github.com/MrWitch21/ASP.Net-Core-web-API-custom-extension',
   },
@@ -358,6 +390,39 @@ export const ui = {
     title: { hu: 'Adóhatás', en: 'Tax impact' },
     none: { hu: 'Nem nő az adód', en: 'No extra tax' },
     tax: { hu: 'adó', en: 'tax' },
+  },
+  access: {
+    caption: {
+      hu: 'Egy kérés útja a jóváhagyástól a címtárig, és lejáratkor vissza',
+      en: 'A request’s path from approval into the directory, and back out on expiry',
+    },
+    who: { hu: 'Nagy Péter · 14 napra', en: 'Nagy Péter · for 14 days' },
+    steps: {
+      request: { hu: 'Kérés', en: 'Request' },
+      manager: { hu: 'Felettes', en: 'Manager' },
+      owner: { hu: 'Tulajdonos', en: 'Owner' },
+      directory: { hu: 'Címtár', en: 'Directory' },
+    },
+    status: [
+      { hu: 'Felettesre vár', en: 'Awaiting manager' },
+      { hu: 'Tulajdonosra vár', en: 'Awaiting owner' },
+      { hu: 'Kiosztás', en: 'Provisioning' },
+      { hu: 'Kiosztva', en: 'Granted' },
+      { hu: 'Lejárt, kivéve', en: 'Expired, removed' },
+    ] satisfies T[],
+    log: { hu: 'Napló', en: 'Audit log' },
+    requested: { hu: 'kérést adott be', en: 'submitted a request' },
+    approved: { hu: 'jóváhagyta', en: 'approved' },
+    system: { hu: 'Rendszer', en: 'System' },
+    later: { hu: '+14 nap', en: '+14 days' },
+  },
+  api: {
+    caption: {
+      hu: 'Ugyanaz a végpont, a nyelvi headertől függő válasszal',
+      en: 'One endpoint, with a response that follows the language header',
+    },
+    send: { hu: 'Küldés', en: 'Execute' },
+    response: { hu: 'Válasz', en: 'Response' },
   },
   preview: {
     headline: { hu: 'A vállalkozásod, online.', en: 'Your business, online.' },
